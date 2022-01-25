@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "Scripts to deploy THX apps to ECS",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thxprotocol/deploy-scripts.git"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
