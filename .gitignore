@@ -1,0 +1,22 @@
+# Dependency directory
+node_modules
+
+# Coverage reports
+coverage
+
+# API keys and secrets
+.env*
+
+# Editors
+.idea
+*.iml
+
+# OS metadata
+.DS_Store
+Thumbs.db
+
+# Other
+pids
+logs
+results
+tmp

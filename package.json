@@ -1,0 +1,21 @@
+{
+  "name": "deploy-scripts",
+  "version": "1.0.0",
+  "description": "Scripts to deploy THX apps to ECS",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "thx-deploy": "./bin/thx-deploy.js"
+  },
+  "type": "module",
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@aws-sdk/client-ecs": "^3.48.0",
+    "@bugcrowd/ecs-deployment-monitor": "^0.2.5-rc3",
+    "@bugcrowd/ecs-service-image-updater": "^0.1.10",
+    "@bugcrowd/ecs-task-runner": "github:bram-rongen/ecs-task-runner#fork"
+  }
+}
