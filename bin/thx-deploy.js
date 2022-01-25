@@ -1,6 +1,9 @@
 #!/usr/bin/env node
 
 import deploy from "../index.js";
+import AWS from "aws-sdk";
+
+AWS.config.update({ region: "eu-west-3" });
 
 const common = {
   cmd: "npm run migrate",
