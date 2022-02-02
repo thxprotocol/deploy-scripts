@@ -20,6 +20,6 @@
     "@aws-sdk/client-ecs": "^3.48.0",
     "@bugcrowd/ecs-deployment-monitor": "^0.2.5-rc3",
     "@bugcrowd/ecs-service-image-updater": "^0.1.10",
-    "@bugcrowd/ecs-task-runner": "github:bram-rongen/ecs-task-runner#fork"
+    "@bugcrowd/ecs-task-runner": "github:bugcrowd/ecs-task-runner"
   }
 }
