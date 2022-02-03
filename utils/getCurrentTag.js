@@ -1,6 +1,9 @@
-import { DescribeTaskDefinitionCommand, ECSClient } from "@aws-sdk/client-ecs";
+const {
+  DescribeTaskDefinitionCommand,
+  ECSClient,
+} = require("@aws-sdk/client-ecs");
 
-export const getCurrentTag = async (env, taskDefinition, containerName) => {
+module.exports = getCurrentTag = async (env, taskDefinition, containerName) => {
   const client = new ECSClient(env);
 
   const command = new DescribeTaskDefinitionCommand({

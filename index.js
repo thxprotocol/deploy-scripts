@@ -1,12 +1,12 @@
-import updater from "@bugcrowd/ecs-service-image-updater";
-import monitor from "@bugcrowd/ecs-deployment-monitor";
-import ecsTaskRunner from "@bugcrowd/ecs-task-runner";
-import {
+const updater = require("@bugcrowd/ecs-service-image-updater");
+const monitor = require("@bugcrowd/ecs-deployment-monitor");
+const ecsTaskRunner = require("@bugcrowd/ecs-task-runner");
+const {
   ECSClient,
   DeregisterTaskDefinitionCommand,
-} from "@aws-sdk/client-ecs";
+} = require("@aws-sdk/client-ecs");
 
-export default function (options) {
+module.exports = function (options) {
   let statusCodes = {
     taskUpdate: undefined,
     taskRunner: undefined,
@@ -71,4 +71,4 @@ export default function (options) {
       process.exit(exitCode);
     }
   }
-}
+};

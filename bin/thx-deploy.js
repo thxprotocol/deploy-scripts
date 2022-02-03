@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-import deploy from "../index.js";
-import AWS from "aws-sdk";
+const deploy = require("../index.js");
+const AWS = require("aws-sdk");
 
 AWS.config.update({ region: "eu-west-3" });
 
