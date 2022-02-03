@@ -25,9 +25,14 @@ yargs(hideBin(process.argv))
           type: "string",
         })
         .option("mirror-dev", {
-          describe:
-            "When specified will use the currently deployed dev tag as tag",
+          describe: "Use the currently deployed dev tag as tag",
           type: "boolean",
+          conflicts: "current-tag",
+        })
+        .option("current-tag", {
+          describe: "Use to trigger a redeploy of the current tag",
+          type: "boolean",
+          conflicts: "mirror-dev",
         });
     },
     async (argv) => {
@@ -37,13 +42,19 @@ yargs(hideBin(process.argv))
         process.exit(1);
       }
 
-      const tag = argv.mirrorDev
-        ? await getCurrentTag(
-            config[argv.app],
-            "ApiDevapiMainTask48988888",
-            "apiContainer"
-          )
-        : argv.tag;
+      let tag = argv.tag;
+      if (argv.mirrorDev)
+        tag = await getCurrentTag(
+          config[argv.app],
+          config["ApiDev"].taskDefinitionName,
+          config["ApiDev"].containerName
+        );
+      if (argv.currentTag)
+        tag = await getCurrentTag(
+          config[argv.app],
+          config[argv.app].taskDefinitionName,
+          config[argv.app].containerName
+        );
 
       if (!tag) {
         console.error("Please specify the tag to deploy");
@@ -51,7 +62,7 @@ yargs(hideBin(process.argv))
       }
 
       console.log("Deploying tag %s to %s", tag, argv.app);
-      deploy(config[argv.app], tag);
+      // deploy(config[argv.app], tag);
     }
   )
   .parse();
