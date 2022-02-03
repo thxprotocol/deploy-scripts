@@ -2,45 +2,56 @@
 
 const deploy = require("../index.js");
 const AWS = require("aws-sdk");
+const yargs = require("yargs/yargs");
+const { hideBin } = require("yargs/helpers");
+const config = require("../config");
+const { getCurrentTag } = require("../utils/getCurrentTag");
 
 AWS.config.update({ region: "eu-west-3" });
 
-const common = {
-  cmd: "npm run migrate",
-  launchType: "FARGATE",
-  region: "eu-west-3",
-};
+yargs(hideBin(process.argv))
+  .command(
+    "$0 <app> [tag]",
+    "Update an app to the specified tag",
+    (yargs) => {
+      return yargs
+        .positional("app", {
+          describe:
+            "The app to deploy to, options: " + Object.keys(config).join(", "),
+          type: "string",
+        })
+        .positional("tag", {
+          describe: "The tag to deploy",
+          type: "string",
+        })
+        .option("mirror-dev", {
+          describe:
+            "When specified will use the currently deployed dev tag as tag",
+          type: "boolean",
+        });
+    },
+    async (argv) => {
+      if (config[argv.app] === undefined) {
+        console.error("App %s is undefined", argv.app);
+        console.log("Available apps:", Object.keys(config));
+        process.exit(1);
+      }
 
-const devCluster = {
-  clusterArn:
-    "arn:aws:ecs:eu-west-3:275440070213:cluster/THXSharedInfraDev-THXClusterFAED48EA-LUOExQirCMo5",
-  securityGroups: ["sg-0a52a74d7ffbc4d8e"],
-  subnets: ["subnet-024678e78678cad14", "subnet-020f4e7dfeeb05b8c"],
-};
+      const tag = argv.mirrorDev
+        ? await getCurrentTag(
+            config[argv.app],
+            "ApiDevapiMainTask48988888",
+            "apiContainer"
+          )
+        : argv.tag;
 
-const tag = process.argv[3];
-const app = process.argv[2];
+      if (!tag) {
+        console.error("Please specify the tag to deploy");
+        process.exit(1);
+      }
 
-let config = {
-  ApiDev: {
-    ...common,
-    ...devCluster,
-    serviceName: "ApiDev-apiServiceD7654F36-OkyTnA8Fg3LA",
-    containerNames: ["apiContainer"],
-    containerName: "apiContainer",
-    image: `275440070213.dkr.ecr.eu-west-3.amazonaws.com/api:${tag}`,
-  },
-};
-
-if (config[app] === undefined) {
-  console.error("App %s is undefined", app);
-  console.log("Available apps:", Object.keys(config));
-  process.exit(1);
-}
-if (!tag) {
-  console.error("Please specify the tag to deploy");
-  process.exit(1);
-}
-
-console.log("Deploying tag %s to %s", tag, app);
-deploy(config[app]);
+      console.log("Deploying tag %s to %s", tag, argv.app);
+      deploy(config[argv.app], tag);
+    }
+  )
+  .parse();

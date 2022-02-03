@@ -6,7 +6,7 @@ const {
   DeregisterTaskDefinitionCommand,
 } = require("@aws-sdk/client-ecs");
 
-module.exports = function (options) {
+module.exports = function (config, tag) {
   let statusCodes = {
     taskUpdate: undefined,
     taskRunner: undefined,
@@ -14,6 +14,11 @@ module.exports = function (options) {
   };
 
   let formerTaskDefinition;
+
+  const options = {
+    ...config,
+    image: `${config.repository}:${tag}`,
+  };
 
   updater.getServiceTaskDefinition(options, (err, taskDefinition) => {
     formerTaskDefinition = taskDefinition;
@@ -25,9 +30,12 @@ module.exports = function (options) {
 
     updateStatus("taskUpdate", 0);
 
-    options = { ...options, taskDefinitionArn };
+    const ecsOptions = {
+      ...options,
+      taskDefinitionArn,
+    };
 
-    ecsTaskRunner(options, function (err, stream) {
+    ecsTaskRunner(ecsOptions, function (err, stream) {
       if (err) throw err;
 
       stream.on("error", (err) => {
@@ -42,7 +50,7 @@ module.exports = function (options) {
       });
     });
 
-    let deployment = monitor(options);
+    let deployment = monitor(ecsOptions);
     deployment.on("error", (error) => console.log("Deployment state:", error));
     deployment.on("state", (state) => console.log("Deployment state:", state));
     deployment.on("end", () => {
