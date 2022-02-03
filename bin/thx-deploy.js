@@ -62,7 +62,7 @@ yargs(hideBin(process.argv))
       }
 
       console.log("Deploying tag %s to %s", tag, argv.app);
-      // deploy(config[argv.app], tag);
+      deploy(config[argv.app], tag);
     }
   )
   .parse();
