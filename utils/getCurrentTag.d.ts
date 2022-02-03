@@ -5,6 +5,6 @@ interface Environment {
 
 export function getCurrentTag(
   env: Environment,
-  taskDefinition: String,
-  containerName: String
-): Promise<String | undefined>;
+  taskDefinition: string,
+  containerName: string
+): Promise<string | undefined>;
