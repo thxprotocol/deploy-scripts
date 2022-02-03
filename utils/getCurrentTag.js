@@ -3,7 +3,7 @@ const {
   ECSClient,
 } = require("@aws-sdk/client-ecs");
 
-module.exports = getCurrentTag = async (env, taskDefinition, containerName) => {
+module.exports.getCurrentTag = async (env, taskDefinition, containerName) => {
   const client = new ECSClient(env);
 
   const command = new DescribeTaskDefinitionCommand({
