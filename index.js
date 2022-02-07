@@ -67,14 +67,14 @@ module.exports = function (config, tag) {
 
       const exitCode = Object.values(statusCodes).filter((v) => v !== 0).length;
 
-      // If exited succesfully, deregister the previous task definition
-      if (exitCode === 0) {
-        const client = new ECSClient({ region: options.region });
-        const command = new DeregisterTaskDefinitionCommand({
-          taskDefinition: formerTaskDefinition,
-        });
-        await client.send(command);
-      }
+      // // If exited succesfully, deregister the previous task definition
+      // if (exitCode === 0) {
+      //   const client = new ECSClient({ region: options.region });
+      //   const command = new DeregisterTaskDefinitionCommand({
+      //     taskDefinition: formerTaskDefinition,
+      //   });
+      //   await client.send(command);
+      // }
 
       process.exit(exitCode);
     }
