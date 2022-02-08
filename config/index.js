@@ -37,4 +37,13 @@ module.exports = {
     containerName: "apiContainer",
     repository: "275440070213.dkr.ecr.eu-west-3.amazonaws.com/api",
   },
+  AuthDev: {
+    ...common,
+    ...devCluster,
+    serviceName: "AuthDev-authService103BE8C2-z5555KU3rpu6",
+    taskDefinitionName: "AuthDevauthMainTask2132FDB5",
+    containerNames: ["authContainer"],
+    containerName: "authContainer",
+    repository: "275440070213.dkr.ecr.eu-west-3.amazonaws.com/auth",
+  },
 };
