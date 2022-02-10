@@ -43,18 +43,23 @@ yargs(hideBin(process.argv))
       }
 
       let tag = argv.tag;
-      if (argv.mirrorDev)
+      if (argv.mirrorDev) {
+        devApp = config[argv.app].devApp;
+        if (!devApp) {
+          throw new Error(`No dev app set for ${argv.app}`);
+        }
         tag = await getCurrentTag(
           config[argv.app],
-          config["ApiDev"].taskDefinitionName,
-          config["ApiDev"].containerName
+          config[devApp].taskDefinitionName,
+          config[devApp].containerName
         );
-      if (argv.currentTag)
+      } else if (argv.currentTag) {
         tag = await getCurrentTag(
           config[argv.app],
           config[argv.app].taskDefinitionName,
           config[argv.app].containerName
         );
+      }
 
       if (!tag) {
         console.error("Please specify the tag to deploy");

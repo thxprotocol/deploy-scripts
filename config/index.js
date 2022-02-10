@@ -13,8 +13,8 @@ const devCluster = {
 
 const prodCluster = {
   clusterArn:
-    "arn:aws:ecs:eu-west-3:275440070213:cluster/THXSharedInfraDev-THXClusterFAED48EA-LUOExQirCMo5",
-  securityGroups: ["sg-0a52a74d7ffbc4d8e"],
+    "arn:aws:ecs:eu-west-3:275440070213:cluster/THXSharedInfraProd-THXClusterFAED48EA-iftJ8iirL1ep",
+  securityGroups: ["sg-0b6ae953be3b223d8"],
   subnets: ["subnet-0c4e6407ed3de3840", "subnet-07ecbce4db555425b"],
 };
 
@@ -31,7 +31,8 @@ module.exports = {
   ApiProd: {
     ...common,
     ...prodCluster,
-    serviceName: "ApiDev-apiServiceD7654F36-OkyTnA8Fg3LA",
+    devApp: "ApiDev",
+    serviceName: "ApiProd-apiServiceD7654F36-ESjPe9pEyMYC",
     taskDefinitionName: "ApiProdapiMainTaskC482A2F5",
     containerNames: ["apiContainer"],
     containerName: "apiContainer",
@@ -42,6 +43,16 @@ module.exports = {
     ...devCluster,
     serviceName: "AuthDev-authService103BE8C2-z5555KU3rpu6",
     taskDefinitionName: "AuthDevauthMainTask2132FDB5",
+    containerNames: ["authContainer"],
+    containerName: "authContainer",
+    repository: "275440070213.dkr.ecr.eu-west-3.amazonaws.com/auth",
+  },
+  AuthProd: {
+    ...common,
+    ...prodCluster,
+    devApp: "AuthDev",
+    serviceName: "AuthProd-authService103BE8C2-4aZWgRDE1eg0",
+    taskDefinitionName: "AuthProdauthMainTask25785408",
     containerNames: ["authContainer"],
     containerName: "authContainer",
     repository: "275440070213.dkr.ecr.eu-west-3.amazonaws.com/auth",
