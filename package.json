@@ -20,6 +20,7 @@
     "@bugcrowd/ecs-deployment-monitor": "^0.2.5-rc3",
     "@bugcrowd/ecs-service-image-updater": "^0.1.10",
     "@bugcrowd/ecs-task-runner": "github:bugcrowd/ecs-task-runner",
+    "open": "^8.4.0",
     "yargs": "^17.3.1"
   }
 }

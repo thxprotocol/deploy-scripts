@@ -1,17 +1,16 @@
 #!/usr/bin/env node
-
-const deploy = require("../index.js");
-const AWS = require("aws-sdk");
 const yargs = require("yargs/yargs");
-const { hideBin } = require("yargs/helpers");
 const config = require("../config");
-const { getCurrentTag } = require("../utils/getCurrentTag");
-
+const { hideBin } = require("yargs/helpers");
+const deployCommand = require("./commands/deploy");
+const diffCommand = require("./commands/diff");
+const AWS = require("aws-sdk");
+const deploy = require("./commands/deploy");
 AWS.config.update({ region: "eu-west-3" });
 
 yargs(hideBin(process.argv))
   .command(
-    "$0 <app> [tag]",
+    ["deploy <app> [tag]"],
     "Update an app to the specified tag",
     (yargs) => {
       return yargs
@@ -35,39 +34,17 @@ yargs(hideBin(process.argv))
           conflicts: "mirror-dev",
         });
     },
-    async (argv) => {
-      if (config[argv.app] === undefined) {
-        console.error("App %s is undefined", argv.app);
-        console.log("Available apps:", Object.keys(config));
-        process.exit(1);
-      }
-
-      let tag = argv.tag;
-      if (argv.mirrorDev) {
-        devApp = config[argv.app].devApp;
-        if (!devApp) {
-          throw new Error(`No dev app set for ${argv.app}`);
-        }
-        tag = await getCurrentTag(
-          config[argv.app],
-          config[devApp].taskDefinitionName,
-          config[devApp].containerName
-        );
-      } else if (argv.currentTag) {
-        tag = await getCurrentTag(
-          config[argv.app],
-          config[argv.app].taskDefinitionName,
-          config[argv.app].containerName
-        );
-      }
-
-      if (!tag) {
-        console.error("Please specify the tag to deploy");
-        process.exit(1);
-      }
-
-      console.log("Deploying tag %s to %s", tag, argv.app);
-      deploy(config[argv.app], tag);
-    }
+    deployCommand
+  )
+  .command(
+    ["diff <app>"],
+    "Opens the diff for app -> main",
+    (yargs) => {
+      return yargs.positional("app", {
+        describe: "either api or auth",
+        type: "string",
+      });
+    },
+    diffCommand
   )
   .parse();
