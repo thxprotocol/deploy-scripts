@@ -10,7 +10,7 @@ AWS.config.update({ region: "eu-west-3" });
 
 yargs(hideBin(process.argv))
   .command(
-    ["deploy <app> [tag]"],
+    ["deploy <app> [tag]", "$0 <app> [tag]"],
     "Update an app to the specified tag",
     (yargs) => {
       return yargs
