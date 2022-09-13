@@ -32,6 +32,11 @@ module.exports = async (argv) => {
     process.exit(1);
   }
 
+  // Matches full commit hash and transforms it to an actual tag.
+  if (tag.match(/[0-9a-f]{40}/)) {
+    tag = `sha-${tag.substring(0, 7)}`;
+  }
+
   console.log("Deploying tag %s to %s", tag, argv.app);
   deploy(config[argv.app], tag);
 };
