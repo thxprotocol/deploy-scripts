@@ -1,12 +1,13 @@
+require('dotenv').config();
+
+const axios = require('axios');
 const updater = require("@bugcrowd/ecs-service-image-updater");
 const monitor = require("@bugcrowd/ecs-deployment-monitor");
 const ecsTaskRunner = require("@bugcrowd/ecs-task-runner");
-const {
-  ECSClient,
-  DeregisterTaskDefinitionCommand,
-} = require("@aws-sdk/client-ecs");
 
-module.exports = function (config, tag) {
+const DISCORD_WEBHOOK = process.env.DISCORD_WEBHOOK;
+
+module.exports = function (app, config, tag) {
   let statusCodes = {
     taskUpdate: undefined,
     taskRunner: undefined,
@@ -53,10 +54,24 @@ module.exports = function (config, tag) {
     let deployment = monitor(ecsOptions);
     deployment.on("error", (error) => console.log("Deployment state:", error));
     deployment.on("state", (state) => console.log("Deployment state:", state));
-    deployment.on("end", () => {
-      updateStatus("deployment", deployment.isFailure() ? 1 : 0);
+    deployment.on("end", async () => {
+      const isFailure = deployment.isFailure()
+      const exitCode = await updateStatus("deployment", isFailure ? 1 : 0);
+      
+      updateDiscord(exitCode);
+
+      process.exit(exitCode);
     });
   });
+
+  async function updateDiscord(isFailed) {
+    const emoji = isFailed ? '⛔' : '✅';
+    const statusText = isFailed ? 'failed' : 'success';
+    const message =  `Release ${app} ${ emoji } \`${ statusText }\``; 
+    const data = JSON.stringify({ content: message });
+
+    await axios({  url: DISCORD_WEBHOOK, method: "POST", data });
+  }
 
   async function updateStatus(key, status) {
     statusCodes[key] = status;
@@ -64,19 +79,8 @@ module.exports = function (config, tag) {
       Object.values(statusCodes).filter((v) => v === undefined).length === 0
     ) {
       console.log("exitCodes", statusCodes);
-
-      const exitCode = Object.values(statusCodes).filter((v) => v !== 0).length;
-
-      // // If exited succesfully, deregister the previous task definition
-      // if (exitCode === 0) {
-      //   const client = new ECSClient({ region: options.region });
-      //   const command = new DeregisterTaskDefinitionCommand({
-      //     taskDefinition: formerTaskDefinition,
-      //   });
-      //   await client.send(command);
-      // }
-
-      process.exit(exitCode);
+     
+      return Object.values(statusCodes).filter((v) => v !== 0).length;
     }
   }
 };

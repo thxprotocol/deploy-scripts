@@ -38,5 +38,5 @@ module.exports = async (argv) => {
   }
 
   console.log("Deploying tag %s to %s", tag, argv.app);
-  deploy(config[argv.app], tag);
+  deploy(argv.app, config[argv.app], tag);
 };

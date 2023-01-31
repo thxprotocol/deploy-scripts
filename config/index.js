@@ -1,5 +1,5 @@
 const common = {
-  cmd: "npm run migrate",
+  cmd: "yarn migrate",
   launchType: "FARGATE",
   region: "eu-west-3",
 };
