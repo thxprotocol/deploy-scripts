@@ -1,4 +1,4 @@
-require('dotenv').config();
+require('dotenv').config({path:'~/.thx-deploy/.env'});
 
 const axios = require('axios');
 const updater = require("@bugcrowd/ecs-service-image-updater");
@@ -69,6 +69,8 @@ module.exports = function (app, config, tag) {
     const statusText = isFailed ? 'failed' : 'success';
     const message =  `Release ${app} ${ emoji } \`${ statusText }\``; 
     const data = JSON.stringify({ content: message });
+    
+    console.log("Update Discord: ", DISCORD_WEBHOOK);
 
     await axios({  url: DISCORD_WEBHOOK, method: "POST", data });
   }
