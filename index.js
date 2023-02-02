@@ -58,7 +58,7 @@ module.exports = function (app, config, tag) {
       const isFailure = deployment.isFailure()
       const exitCode = await updateStatus("deployment", isFailure ? 1 : 0);
       
-      await updateDiscord(exitCode);
+      if (DISCORD_WEBHOOK) await updateDiscord(exitCode);
 
       process.exit(exitCode);
     });
@@ -68,7 +68,7 @@ module.exports = function (app, config, tag) {
     const emoji = isFailed ? '⛔' : '✅';
     const statusText = isFailed ? 'failed' : 'success';
     const data = { content: `Released ${app} ${ emoji } \`${ statusText }\`` };
-
+    
     await axios({ url: DISCORD_WEBHOOK, method: "POST", data });
   }
 
