@@ -66,8 +66,7 @@ module.exports = function (app, config, tag) {
 
   async function updateDiscord(isFailed) {
     const emoji = isFailed ? '⛔' : '✅';
-    const statusText = isFailed ? 'failed' : 'success';
-    const data = { content: `Released ${app} ${ emoji } \`${ statusText }\`` };
+    const data = { content: `${ emoji } Released ${app} \`${ tag }\`` };
     
     await axios({ url: DISCORD_WEBHOOK, method: "POST", data });
   }
