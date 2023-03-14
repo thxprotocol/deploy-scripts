@@ -60,7 +60,7 @@ module.exports = {
   DiscordDev: {
     ...common,
     ...devCluster,
-    serviceName: "DiscordDev-discordService5C514286-A8iLBy0om1jt",
+    serviceName: "DiscordDev-discordService5C514286-Ng2OdQDlaSLo",
     taskDefinitionName: "DiscordDevdiscordMainTask99846432",
     containerNames: ["discordContainer"],
     containerName: "discordContainer",
