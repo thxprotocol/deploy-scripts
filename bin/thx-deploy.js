@@ -41,7 +41,7 @@ yargs(hideBin(process.argv))
     "Opens the diff for app -> main",
     (yargs) => {
       return yargs.positional("app", {
-        describe: "either api or auth",
+        describe: "either api, auth or discord",
         type: "string",
       });
     },
