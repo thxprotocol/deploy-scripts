@@ -41,7 +41,7 @@ module.exports = {
   AuthDev: {
     ...common,
     ...devCluster,
-    serviceName: "AuthDev-authService103BE8C2-z5555KU3rpu6",
+    serviceName: "AuthDev-authService103BE8C2-qTWnEu7U9Brd",
     taskDefinitionName: "AuthDevauthMainTask2132FDB5",
     containerNames: ["authContainer"],
     containerName: "authContainer",
