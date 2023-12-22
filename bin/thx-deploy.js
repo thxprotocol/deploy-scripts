@@ -5,7 +5,7 @@ const { hideBin } = require("yargs/helpers");
 const deployCommand = require("./commands/deploy");
 const diffCommand = require("./commands/diff");
 const AWS = require("aws-sdk");
-const deploy = require("./commands/deploy");
+
 AWS.config.update({ region: "eu-west-3" });
 
 yargs(hideBin(process.argv))

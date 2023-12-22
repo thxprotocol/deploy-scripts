@@ -20,6 +20,7 @@
     "@bugcrowd/ecs-deployment-monitor": "^0.2.5-rc3",
     "@bugcrowd/ecs-service-image-updater": "^0.1.10",
     "@bugcrowd/ecs-task-runner": "github:bugcrowd/ecs-task-runner",
+    "aws-sdk": "^2.1525.0",
     "axios": "^1.2.6",
     "dotenv": "^16.0.3",
     "open": "^8.4.0",
