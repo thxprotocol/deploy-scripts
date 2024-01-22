@@ -57,23 +57,4 @@ module.exports = {
     containerName: "authContainer",
     repository: "275440070213.dkr.ecr.eu-west-3.amazonaws.com/auth",
   },
-  DiscordDev: {
-    ...common,
-    ...devCluster,
-    serviceName: "DiscordDev-discordService5C514286-Ng2OdQDlaSLo",
-    taskDefinitionName: "DiscordDevdiscordMainTask99846432",
-    containerNames: ["discordContainer"],
-    containerName: "discordContainer",
-    repository: "275440070213.dkr.ecr.eu-west-3.amazonaws.com/discord",
-  },
-  DiscordProd: {
-    ...common,
-    ...prodCluster,
-    devApp: "DiscordDev",
-    serviceName: "DiscordProd-discordService5C514286-UzJcl0gQkAeK",
-    taskDefinitionName: "DiscordProddiscordMainTaskA091CF3F",
-    containerNames: ["discordContainer"],
-    containerName: "discordContainer",
-    repository: "275440070213.dkr.ecr.eu-west-3.amazonaws.com/discord",
-  },
 };
