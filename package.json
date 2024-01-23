@@ -1,6 +1,6 @@
 {
   "name": "deploy-scripts",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Scripts to deploy THX apps to ECS",
   "main": "index.js",
   "repository": {
